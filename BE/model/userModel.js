@@ -1,18 +1,29 @@
-import mongoose, {Schema, model} from 'mongoose';
-import MessageModel from './messageModel.js';
+import mongoose, { Schema, model } from "mongoose";
+import MessageModel from "./messageModel.js";
 
-const userSchema = new Schema({
+const userSchema = new Schema(
+  {
     name: {
-        type: String,
+      type: String,
     },
     surname: {
-        type: String,
+      type: String,
     },
-    messages: [{
-           type: mongoose.SchemaTypes.ObjectId,
-             ref:MessageModel,
-          }]
-} , {strict:false} )
+    messages: [
+      {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: MessageModel,
+      },
+    ],
+    subscriptions: [
+      {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'User',
+      },
+    ],
+  },
+  { strict: false }
+);
 
 const User = model("User", userSchema);
 
