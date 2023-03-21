@@ -1,4 +1,5 @@
-import {Schema, model} from 'mongoose';
+import mongoose, {Schema, model} from 'mongoose';
+import MessageModel from './messageModel.js';
 
 const userSchema = new Schema({
     name: {
@@ -7,7 +8,11 @@ const userSchema = new Schema({
     surname: {
         type: String,
     },
-})
+    messages: [{
+           type: mongoose.SchemaTypes.ObjectId,
+             ref:MessageModel,
+          }]
+} , {strict:false} )
 
 const User = model("User", userSchema);
 

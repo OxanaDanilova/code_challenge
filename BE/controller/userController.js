@@ -13,7 +13,7 @@ export const getAllUsers = async (req, res) => {
   export const getUser = async (req, res) => {
     const userId = req.params.id;
     try {
-        const user = await UserModel.findById(userId);
+        const user = await UserModel.findById(userId).populate('messages');
         res.status(200).json(user);
       } catch (error) {
         console.log(error);
