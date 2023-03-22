@@ -11,7 +11,7 @@ import "./Messages.css";
 
 export default function Messages() {
   const context = useContext(myContext);
-  const { currentUser } = context;
+  const { currentUser, newMessage, setNewMessage } = context;
  
   const [messages, setMessages] = useState([]);
 
@@ -50,7 +50,8 @@ export default function Messages() {
 
   useEffect(() => {
     getUsers();
-  }, [currentUser]);
+    setNewMessage(false);
+  }, [currentUser, newMessage]);
 
   return (
     <section className="messages-section">
