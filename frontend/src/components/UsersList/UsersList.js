@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+
+import axiosConfig from "../../util/AxiosConfig";
+import { myContext } from '../../App';
 
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -6,11 +9,12 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-import axiosConfig from "../../util/AxiosConfig";
 
 export default function UsersList() {
-  const [users, setUsers] = useState([]);
-  const [currentUser, setCurrentUser] = React.useState('');
+  const context = useContext(myContext);
+  const {currentUser, setCurrentUser} = context;
+
+  const [users, setUsers] = useState([]); 
 
   const handleChange = (event) => {
     setCurrentUser(event.target.value);
@@ -31,7 +35,7 @@ export default function UsersList() {
   }, []);
 
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box sx={{ minWidth: 120, width: "300px", margin:"1rem auto" }}>
     <FormControl fullWidth>
       <InputLabel id="demo-simple-select-label">Current user</InputLabel>
       <Select

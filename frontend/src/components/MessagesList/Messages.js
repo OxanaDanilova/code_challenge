@@ -1,38 +1,86 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
 
 import axiosConfig from "../../util/AxiosConfig";
+import { myContext } from "../../App";
 
-export default function Messages({ userId }) {
-  console.log("userId", userId);
+import "./Messages.css";
+
+export default function Messages() {
+  const context = useContext(myContext);
+  const { currentUser } = context;
+ 
   const [messages, setMessages] = useState([]);
+
   async function getUsers() {
-    try {
-      const apiData = await axiosConfig.get(`/users/${userId}`);
-      const mesList = await apiData.data;
+    if (currentUser) {
+      try {
+        const apiData = await axiosConfig.get(`/users/${currentUser}`);
+        const mesList = await apiData.data;
 
-      // replace userId on appropriate user name and surname
-      mesList.messages.map(message=>message.author=`${mesList.name} ${mesList.surname}`);
-     
-     setMessages(mesList.messages); // add messages of current user
-      if (mesList.subscriptions) {
-        mesList.subscriptions.map(subscription=>{
-          setMessages([...messages, subscription.messages.map(message=>message.author=`${mesList.subscriptions.name} ${mesList.subscriptions.surname}`)]);
-          return   subscription.messages.map(message=>message.author=`${mesList.subscriptions.name} ${mesList.subscriptions.surname}`);
-        });
+        // replace userId on appropriate user name and surname
+        mesList.messages.map(
+          (message) => (message.author = `${mesList.name} ${mesList.surname}`)
+        );
 
-            }
+        // add messages of current user
+        const newMessageArr = [...mesList.messages];
 
-    
-     
-  
-    } catch (error) {
-      console.log(error);
+        if (mesList.subscriptions) {
+          mesList.subscriptions.map((subscription) => {
+            // add messages from subscriptions
+            subscription.messages.map(
+              (message) =>
+                (message.author = `${subscription.name} ${subscription.surname}`)
+            );
+            newMessageArr.push(...subscription.messages);
+            return subscription;
+          });
+        }
+
+        setMessages(newMessageArr);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
   useEffect(() => {
     getUsers();
-  }, []);
+  }, [currentUser]);
 
-  return <div>Messages</div>;
+  return (
+    <section className="messages-section">
+      <Typography align="center" variant="h5">
+        Messages
+      </Typography>
+
+      {messages.map((message) => {
+        return (
+          <Card sx={{ width: "80%", margin: "1rem auto" }} key={message._id}>
+            <CardContent>
+              <Typography
+                gutterBottom
+                component="div"
+                align="left"
+                variant="subtitle"
+              >
+                {message.author}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                align="justify"
+              >
+                {message.text}
+              </Typography>
+            </CardContent>
+          </Card>
+        );
+      })}
+    </section>
+  );
 }
