@@ -14,7 +14,6 @@ export const getAllUsers = async (req, res) => {
     const userId = req.params.id;
     try {
         const user = await UserModel.findById(userId).populate('messages').populate({path:'subscriptions',populate:{path: 'messages'}});
-        console.log('user', user);
         res.status(200).json(user);
       } catch (error) {
         console.log(error);
@@ -30,4 +29,16 @@ export const getAllUsers = async (req, res) => {
     } catch (error) {
       res.send(error.message);
     }
+  };
+
+
+  export const findUser = async(name, surname) => {
+    console.log(name, surname);
+    try {
+        const user = await UserModel.findOne({ name, surname }); 
+        console.log(user);   
+        return user;
+      } catch (error) {
+        console.log(error);    
+      }   
   };

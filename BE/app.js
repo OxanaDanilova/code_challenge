@@ -5,6 +5,7 @@ import expressFileUpload from "express-fileupload";
 import connectMongoose from "./util/mongooseConnect.js";
 import userRouter from "./router/userRouter.js";
 import messageRouter from "./router/messageRouter.js";
+import { importFile } from "./controller/importData.js";
 
 const port = process.env.PORT || 4000;
 const app = express();
@@ -18,14 +19,7 @@ app.use(expressFileUpload({
 }));
 app.use("/users", userRouter);
 app.use("/messages", messageRouter);
-
-app.post("/importFile", (req, res) => {
-  console.log(String(req.files.file.data));
-  // const image = req.files.image;
-  // image.mv(`./public/images/${image.name}`);
-  // console.log(image);
-  res.status(201).send();
-});
+app.post("/importFile", importFile);
 
 if (await connectMongoose()) {
   app.listen(port, () => {
