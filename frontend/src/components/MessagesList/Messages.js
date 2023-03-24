@@ -12,7 +12,7 @@ import "./Messages.css";
 export default function Messages() {
   const context = useContext(myContext);
   const { currentUser, isUpdated, setIsUpdated } = context;
- 
+
   const [messages, setMessages] = useState([]);
 
   async function getMessages() {
@@ -20,7 +20,6 @@ export default function Messages() {
       try {
         const apiData = await axiosConfig.get(`/users/${currentUser}`);
         const mesList = await apiData.data;
-        console.log('mesList',mesList);
 
         // replace userId on appropriate user name and surname
         mesList.messages.map(
@@ -51,7 +50,7 @@ export default function Messages() {
   }
 
   useEffect(() => {
-    getMessages(); 
+    getMessages();
   }, [currentUser, isUpdated]);
 
   return (

@@ -42,7 +42,7 @@ export default function CreateMessagePanel() {
     >
       <TextField
         id="outlined-multiline-static"
-        placeholder="Select current user and type message"
+        placeholder="Select the current user and type the message"
         multiline
         maxRows={2}
         sx={{
