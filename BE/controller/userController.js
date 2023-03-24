@@ -32,11 +32,11 @@ export const getAllUsers = async (req, res) => {
   };
 
 
-  export const findUser = async(name, surname) => {
+  export const findUser = async(name, surname) => { 
     console.log(name, surname);
     try {
-        const user = await UserModel.findOne({ name, surname }); 
-        console.log(user);   
+        const user = await UserModel.findOne({ name, surname });  
+        console.log('user', user);       
         return user;
       } catch (error) {
         console.log(error);    

@@ -36,7 +36,8 @@ export default function ImportComponent() {
     >
       <TextField
         id="standard-basic"
-        type="file"
+        type="file"        
+        inputProps={{accept:".txt"}}
         label="Select txt file"
         sx={{ width: "45%" }}
         name="file"
