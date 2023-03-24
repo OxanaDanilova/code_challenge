@@ -1,23 +1,35 @@
-import React from "react";
-
-import axiosConfig from "../../util/AxiosConfig";
+import React, {useContext} from "react";
 
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 
+import axiosConfig from "../../util/AxiosConfig";
+import { myContext } from "../../App";
+
+
 export default function ImportComponent() {
+  const context = useContext(myContext);
+  const { setIsLoading, setIsUpdated } = context;
 
     async function uploadFile(event) {
-        event.preventDefault();
-        const txtFile = event.target.elements.file.files[0];        
+      event.preventDefault();
+        const txtFile = event.target.elements.file.files[0]; 
+       if (txtFile) {   
         const formData = new FormData();
-        formData.append("file", txtFile);
-        try {
-          await axiosConfig.post("/importFile", formData);
-        } catch (error) {
-          console.log(error);
-        }
+        formData.append("file", txtFile);      
+          try {
+            setIsLoading(true);
+            await axiosConfig.post("/importFile", formData);
+            setIsLoading(false);
+         setIsUpdated(true);
+          } catch (error) {
+            setIsLoading(false);
+            console.log(error);
+          }
+
+       }
+       
       }
 
   return (

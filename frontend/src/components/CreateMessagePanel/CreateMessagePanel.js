@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 
 export default function CreateMessagePanel() {
   const context = useContext(myContext);
-  const { currentUser, setNewMessage } = context;
+  const { currentUser, setIsUpdated} = context;
 
   const [textMessage, setTextMessage] = useState("");
 
@@ -21,7 +21,7 @@ export default function CreateMessagePanel() {
           author: currentUser,
         });
         setTextMessage("");
-        setNewMessage(true);
+        setIsUpdated(true);
       } catch (error) {
         console.log(error);
       }

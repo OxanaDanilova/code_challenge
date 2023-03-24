@@ -10,14 +10,16 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 
+
+
 export default function UsersList() {
   const context = useContext(myContext);
-  const {currentUser, setCurrentUser} = context;
+  const {currentUser, setCurrentUser, isUpdated, setIsUpdated} = context;
 
   const [users, setUsers] = useState([]); 
 
   const handleChange = (event) => {
-    setCurrentUser(event.target.value);
+   setCurrentUser(event.target.value);
   };
 
   async function getUsers() {
@@ -25,6 +27,7 @@ export default function UsersList() {
       const apiData = await axiosConfig.get("/users");
       const userList = await apiData.data;
       setUsers(userList);
+      setIsUpdated(false);
     } catch (error) {
       console.log(error);
     }
@@ -32,7 +35,7 @@ export default function UsersList() {
 
   useEffect(() => {
     getUsers();
-  }, []);
+  }, [isUpdated]);
 
   return (
     <Box sx={{ minWidth: 120, width: "300px", margin:"1rem auto" }}>

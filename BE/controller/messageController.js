@@ -35,3 +35,12 @@ import UserModel from "../model/userModel.js";
       res.send(error.message);
     }
   };
+
+  export const findMessage = async(text, author) => { 
+    try {
+        const message = await MessageModel.findOne({ text, author });            
+        return message;
+      } catch (error) {
+        console.log(error);    
+      }   
+  };

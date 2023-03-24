@@ -11,15 +11,16 @@ import "./Messages.css";
 
 export default function Messages() {
   const context = useContext(myContext);
-  const { currentUser, newMessage, setNewMessage } = context;
+  const { currentUser, isUpdated, setIsUpdated } = context;
  
   const [messages, setMessages] = useState([]);
 
-  async function getUsers() {
+  async function getMessages() {
     if (currentUser) {
       try {
         const apiData = await axiosConfig.get(`/users/${currentUser}`);
         const mesList = await apiData.data;
+        console.log('mesList',mesList);
 
         // replace userId on appropriate user name and surname
         mesList.messages.map(
@@ -42,6 +43,7 @@ export default function Messages() {
         }
 
         setMessages(newMessageArr);
+        setIsUpdated(false);
       } catch (error) {
         console.log(error);
       }
@@ -49,9 +51,8 @@ export default function Messages() {
   }
 
   useEffect(() => {
-    getUsers();
-    setNewMessage(false);
-  }, [currentUser, newMessage]);
+    getMessages(); 
+  }, [currentUser, isUpdated]);
 
   return (
     <section className="messages-section">
