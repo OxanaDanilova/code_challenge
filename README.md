@@ -47,4 +47,4 @@ Create the message
 
 ### BE: Node.js, Express.js, Mongo DB, Mongoose
 
-### FE: HTML5, CSS3, JavaScript, React, Materila UI
+### FE: HTML5, CSS3, JavaScript, React, Material UI
